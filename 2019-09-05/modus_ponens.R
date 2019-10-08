@@ -1,4 +1,4 @@
-X <- c(0.4,1,0.6);
+X <- c(0.6,0.9,0.7);
 Y <- c(0.8,0.4);
 
 # Função que calcula a Implicação de Lukasiewicz
