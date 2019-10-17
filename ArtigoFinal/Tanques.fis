@@ -1,0 +1,90 @@
+[System]
+Name='Artigo'
+Type='mamdani'
+Version=3.1
+NumInputs=3
+NumOutputs=2
+NumRules=27
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='CN'
+Range=[0.000 100.000]
+NumMFs=3
+MF1='Baixa':'trimf',[0.000 0.000 60.000]
+MF2='Media':'trimf',[0.000 60.000 100.000]
+MF3='Alta':'trimf',[60.000 100.000 100.000]
+
+[Input2]
+Name='Declividade'
+Range=[0.000 160.000]
+NumMFs=3
+MF1='Baixa':'trimf',[0.000 0.000 30.000]
+MF2='Media':'trimf',[0.000 30.000 160.000]
+MF3='Alta':'trimf',[30.000 160.000 160.000]
+
+[Input3]
+Name='Permeabilidade'
+Range=[0.000 1.000]
+NumMFs=3
+MF1='Baixa':'trimf',[0.000 0.000 0.500]
+MF2='Media':'trimf',[0.000 0.500 1.000]
+MF3='Alta':'trimf',[0.500 1.000 1.000]
+
+
+[Output1]
+Name='TanquePercolacao'
+Range=[0.000 1.000]
+Default=0.000
+LockValid=0
+LockRange=0
+NumMFs=3
+MF1='Baixo':'trimf',[0.000 0.000 0.500]
+MF2='Medio':'trimf',[0.000 0.500 1.000]
+MF3='Alto':'trimf',[0.500 1.000 1.000]
+
+[Output2]
+Name='TanqueAgricola'
+Range=[0.000 1.000]
+Default=0.000
+LockValid=0
+LockRange=0
+NumMFs=3
+MF1='Baixo':'trimf',[0.000 0.000 0.500]
+MF2='Medio':'trimf',[0.000 0.500 1.000]
+MF3='Alto':'trimf',[0.500 1.000 1.000]
+
+
+[Rules]
+1 1 1 , 2 2 (1) : 1
+1 1 2 , 2 2 (1) : 1
+1 1 3 , 3 1 (1) : 1
+1 2 1 , 1 3 (1) : 1
+1 2 2 , 2 2 (1) : 1
+1 2 3 , 3 1 (1) : 1
+1 3 1 , 1 3 (1) : 1
+1 3 2 , 2 2 (1) : 1
+1 3 3 , 3 1 (1) : 1
+2 1 1 , 1 3 (1) : 1
+2 1 2 , 2 2 (1) : 1
+2 1 3 , 3 1 (1) : 1
+2 2 1 , 1 3 (1) : 1
+2 2 2 , 2 2 (1) : 1
+2 2 3 , 3 1 (1) : 1
+2 3 1 , 1 3 (1) : 1
+2 3 2 , 2 2 (1) : 1
+2 3 3 , 3 1 (1) : 1
+3 1 1 , 1 3 (1) : 1
+3 1 2 , 2 2 (1) : 1
+3 1 3 , 3 1 (1) : 1
+3 2 1 , 1 3 (1) : 1
+3 2 2 , 2 2 (1) : 1
+3 2 3 , 3 1 (1) : 1
+3 3 1 , 1 3 (1) : 1
+3 3 2 , 2 2 (1) : 1
+3 3 3 , 3 1 (1) : 1
+
