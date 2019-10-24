@@ -2,14 +2,14 @@ library("sf")
 library("FuzzyR")
 
 
-setwd("") 
-# Tem que colocar a pasta que ele está, se for no windows, trocar as \ por /
+setwd("")
+# Tem que colocar a pasta que ele estï¿½, se for no windows, trocar as \ por /
 
 CN <- read_sf("ShapeFiles/pontos_CN.shp")
 Declividade <- read_sf("ShapeFiles/Declividade.shp")
-Permeabilidade <- read_sf("ShapeFiles/permeabi.shp")
+Permeabilidade <- read_sf("ShapeFiles/permeabilidade.shp")
 
-# Pego o mínimo de linhas dos 3
+# Pego o mï¿½nimo de linhas dos 3
 n_lines <- min(nrow(CN), nrow(Declividade),  nrow(Permeabilidade))
 
 
@@ -18,15 +18,15 @@ CN <- CN[1:n_lines,]
 Declividade <- Declividade[1:n_lines,]
 Permeabilidade <- Permeabilidade[1:n_lines,]
 
-# Resumão de cada um
+# Resumï¿½o de cada um
 summary(CN$grid_code)
 summary(Declividade$grid_code)
 summary(Permeabilidade$grid_code)
 
-# cria FIS PERCOLACAO COM dois FIS o processamento é mais rápido 
-# (mas a gente pode dizer que foi um Só, sem crise)
+# cria FIS PERCOLACAO COM dois FIS o processamento ï¿½ mais rï¿½pido
+# (mas a gente pode dizer que foi um Sï¿½, sem crise)
 
-fis_TP <- newfis("Tanque Percolação")
+fis_TP <- newfis("Tanque Percolaï¿½ï¿½o")
 
 #adiciona variaveis
 fis_TP <- addvar(fis_TP, "input", "CN", c(0,100))
@@ -61,39 +61,45 @@ plotmf(fis_TP,"output",1)
 ruleList <- rbind(c(1,1,1,2,1,1),
                   c(1,1,2,2,1,1),
                   c(1,1,3,3,1,1),
+
                   c(1,2,1,1,1,1),
                   c(1,2,2,2,1,1),
                   c(1,2,3,3,1,1),
+
                   c(1,3,1,1,1,1),
                   c(1,3,2,2,1,1),
                   c(1,3,3,3,1,1),
-                  
+
                   c(2,1,1,1,1,1),
                   c(2,1,2,2,1,1),
                   c(2,1,3,3,1,1),
+
                   c(2,2,1,1,1,1),
                   c(2,2,2,2,1,1),
                   c(2,2,3,3,1,1),
+
                   c(2,3,1,1,1,1),
                   c(2,3,2,2,1,1),
                   c(2,3,3,3,1,1),
-                  
+
                   c(3,1,1,1,1,1),
                   c(3,1,2,2,1,1),
                   c(3,1,3,3,1,1),
+
                   c(3,2,1,1,1,1),
                   c(3,2,2,2,1,1),
                   c(3,2,3,3,1,1),
+
                   c(3,3,1,1,1,1),
                   c(3,3,2,2,1,1),
                   c(3,3,3,3,1,1)
-                  
+
                   )
 
 fis_TP <- addrule(fis_TP,matrix(ruleList,ncol=6)) # Adiciona as regras
 # showrule(fis_TP) # Mostra As regras
 
-
+showGUI(fis_TP)
 
 #cria FIS TANQUE AGRICOLA
 fis_TA <- newfis("Tanque Agricola")
@@ -132,33 +138,39 @@ plotmf(fis_TA,"output",1)
 ruleList <- rbind(c(1,1,1,2,1,1),
                   c(1,1,2,2,1,1),
                   c(1,1,3,1,1,1),
-                  c(1,2,1,2,1,1),
+
+                  c(1,2,1,3,1,1),
                   c(1,2,2,2,1,1),
                   c(1,2,3,1,1,1),
+
                   c(1,3,1,3,1,1),
                   c(1,3,2,2,1,1),
                   c(1,3,3,1,1,1),
-                  
+
                   c(2,1,1,3,1,1),
                   c(2,1,2,2,1,1),
                   c(2,1,3,1,1,1),
+
                   c(2,2,1,3,1,1),
                   c(2,2,2,2,1,1),
                   c(2,2,3,1,1,1),
+
                   c(2,3,1,3,1,1),
                   c(2,3,2,2,1,1),
                   c(2,3,3,1,1,1),
-                  
+
                   c(3,1,1,3,1,1),
                   c(3,1,2,2,1,1),
                   c(3,1,3,1,1,1),
+
                   c(3,2,1,3,1,1),
                   c(3,2,2,2,1,1),
                   c(3,2,3,1,1,1),
+
                   c(3,3,1,3,1,1),
                   c(3,3,2,2,1,1),
                   c(3,3,3,1,1,1)
-                  
+
 )
 
 fis_TA <- addrule(fis_TA,matrix(ruleList,ncol=6))
@@ -170,8 +182,8 @@ fis_TA <- addrule(fis_TA,matrix(ruleList,ncol=6))
 entrada <- cbind(CN$grid_code,Declividade$grid_code,Permeabilidade$grid_code)
 entrada <- matrix(entrada, ncol = 3)
 
-# Verificações da Entrada
-str(entrada) 
+# Verificaï¿½ï¿½es da Entrada
+str(entrada)
 summary(entrada)
 
 
@@ -189,4 +201,3 @@ shp_TP$grid_code <- resultadoTPerc
 
 st_write(shp_TA, "ShapeFiles/output/shp_TA.shp")
 st_write(shp_TP, "ShapeFiles/output/shp_TP.shp")
-
