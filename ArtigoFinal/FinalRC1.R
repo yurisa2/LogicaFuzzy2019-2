@@ -165,7 +165,17 @@ shp_results <- camadas_unidas
 shp_results$TA <- as.vector(resultadoTAgr)
 shp_results$TP <- as.vector(resultadoTPerc)
 
+shp_graph <- shp_results
+shp_graph$geometry <- NULL
 
-objects(shp_results)
+summary(shp_graph)
+
+hist(shp_graph$TP)
+hist(shp_graph$TA)
+
+
+boxplot(shp_graph$TP)
+boxplot(shp_graph$TA)
+
 
 st_write(shp_results, "ShapeFiles/output/shp_results.shp")
