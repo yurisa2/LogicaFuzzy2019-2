@@ -170,9 +170,11 @@ shp_graph$geometry <- NULL
 
 summary(shp_graph)
 
+summary(cbind(shp_graph$TA,shp_graph$TP))
+
+
 hist(shp_graph$TP)
 hist(shp_graph$TA)
-
 
 boxplot(shp_graph$TP)
 boxplot(shp_graph$TA)
