@@ -2,7 +2,7 @@ library("sf")
 library("FuzzyR")
 
 
-setwd("")
+setwd("C:/Bitnami/wampstack-7.1.28-0/apache2/htdocs/LogicaFuzzy2019-2/ArtigoFinal")
 # Tem que colocar a pasta que ele estï¿½, se for no windows, trocar as \ por /
 
 camadas_unidas <- read_sf("ShapeFiles/camadas_unidas.shp")
@@ -168,16 +168,56 @@ shp_results$TP <- as.vector(resultadoTPerc)
 shp_graph <- shp_results
 shp_graph$geometry <- NULL
 
+# Mostrar sumarios
 summary(shp_graph)
 
 summary(cbind(shp_graph$TA,shp_graph$TP))
 
-
+# Graficos
 hist(shp_graph$TP)
 hist(shp_graph$TA)
 
 boxplot(shp_graph$TP)
 boxplot(shp_graph$TA)
 
+testelm <- lm(shp_graph$TP ~ camadas_unidas$CN + camadas_unidas$PER + camadas_unidas$Slope)
+testeglm <- glm(shp_graph$TP ~ camadas_unidas$CN + camadas_unidas$PER + camadas_unidas$Slope)
 
+plot(testelm)
+anova(testelm)
+
+
+hist(shp_results$TA)
+hist(resultadoTPerc)
+
+h <- hist(shp_results$TA, 
+     breaks=c(0.0,0.33,0.66,1), 
+     xlab='Classificação Fuzzy da Adequabilidade', 
+     ylab='Densidade', 
+     main='Distribuição da adequabilidade do Tanque Agrícola', 
+     col= c('dodgerblue','lightyellow1','brown'), labels=TRUE)
+
+
+histPercent <- function(x, ...) {
+  H <- hist(x, plot = FALSE,breaks=c(0.0,0.33,0.66,1)
+            )
+  H$density <- with(H, 100 * density* diff(breaks)[1])
+  labs <- paste(round(H$density), "%", sep="")
+  plot(H, freq = FALSE, 
+       labels = labs, 
+       
+       col= c('dodgerblue','lightyellow1','brown'),
+       ylim=c(0, 1.08*max(H$density)),
+       xlab='Classificação Fuzzy da Adequabilidade', 
+       ylab='% dos pontos', ...)
+}
+
+
+histPercent(shp_results$TA, main='Distribuição da adequabilidade do Tanque Agrícola')
+histPercent(shp_results$TP, main='Distribuição da adequabilidade do Tanque  de Percolação')
+
+hist(shp_results$TA)
+
+
+# Escrever o Shapefile final
 st_write(shp_results, "ShapeFiles/output/shp_results.shp")
